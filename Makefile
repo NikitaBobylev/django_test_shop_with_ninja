@@ -27,7 +27,7 @@ storages-down:
 
 .PHONY: app
 app:
-	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} ${ENV_FILE} up -d
+	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} ${ENV_FILE} up --build -d
 
 .PHONY: app-logs
 app-logs:
