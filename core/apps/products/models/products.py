@@ -1,13 +1,14 @@
 from django.db import models
 
-from ...common.models import TimedBaseModel
 from core.apps.products.entities.products import Product as ProductEntity
+
+from ...common.models import TimedBaseModel
 
 
 class Product(TimedBaseModel):
     title = models.CharField(
         max_length=250,
-        verbose_name='Название товара'
+        verbose_name='Название товара',
     )
     description = models.TextField(
         blank=True,
@@ -16,7 +17,6 @@ class Product(TimedBaseModel):
     is_visible = models.BooleanField(
         verbose_name='Виден ли товар в каталоге',
         default=True,
-
     )
 
     def to_entity(self) -> ProductEntity:
@@ -25,7 +25,7 @@ class Product(TimedBaseModel):
             title=self.title,
             description=self.description,
             created_at=self.created_at,
-            updated_at=self.updated_at
+            updated_at=self.updated_at,
         )
 
     def __str__(self):

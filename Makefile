@@ -54,6 +54,9 @@ migrate:
 superuser:
 	${EXEC} ${APP_CONTAINER} ${PYTHON_MANEGE} createsuperuser
 
+.PHONY: createapp
+superuser:
+	${EXEC} ${APP_CONTAINER} ${PYTHON_MANEGE} createapp
 
 .PHONY: collectstatic
 collectstatic:

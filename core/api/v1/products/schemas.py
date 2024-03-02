@@ -1,8 +1,11 @@
-from ninja import Schema
 from datetime import datetime
+
+from ninja import Schema
+
 from core.apps.products.entities.products import Product as ProductEntity
 
 
+# TODO: create new common endpoint
 class ProductSchema(Schema):
     id: int
     title: str

@@ -1,5 +1,7 @@
 from pathlib import Path
+
 import environ
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 env = environ.Env()
@@ -17,11 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-
     'core.apps.common.apps.CommonConfig',
     'core.apps.products.apps.ProductsConfig',
-
 ]
 
 MIDDLEWARE = [
@@ -62,7 +61,7 @@ DATABASES = {
         'PASSWORD': env('POSTGRES_PASSWORD'),
         'HOST': env('POSTGRES_HOST'),
         'PORT': env('POSTGRES_PORT'),
-    }
+    },
 }
 
 AUTH_PASSWORD_VALIDATORS = [
