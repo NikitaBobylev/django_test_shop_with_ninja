@@ -27,9 +27,9 @@ product_router = Router(tags=['Products'])
 
 @product_router.get('', response=ApiResponse[ListPaginationResponce[ProductSchema]])
 def get_product_list_handler(
-    request: HttpRequest,
-    search: Query[ProductFilter],
-    pagination_in: Query[PaginationIn],
+        request: HttpRequest,
+        search: Query[ProductFilter],
+        pagination_in: Query[PaginationIn],
 ) -> ApiResponse[ListPaginationResponce[ProductSchema]]:
     service: BaseProductService = ORMProductService()
     product_list = service.get_product_list(
