@@ -2,7 +2,7 @@
 name = "django template"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Your Name nikitabobyelev@yandex.ru"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -16,10 +16,17 @@ psycopg2-binary = "^2.9.9"
 [tool.poetry.group.dev.dependencies]
 isort = "^5.13.2"
 pre-commit = "^3.6.2"
+faker = "^23.3.0"
+pytest = "^8.0.2"
+pytest-django = "^4.8.0"
+factory-boy = "^3.3.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "core.project.settings.local"
 
 [tool.isort]
 multi_line_output = 3
@@ -40,3 +47,5 @@ skip_glob = [".git", ".idea", ".vscode", "venv", ".venv"]
 known_django = ["django", "ninja"]
 known_first_party = ["core"]
 sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+
+

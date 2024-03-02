@@ -19,13 +19,13 @@ class BaseProductService(ABC):
     @abstractmethod
     def get_product_list(
             self,
-            search: ProductFilter,
-            pagination: PaginationIn,
+            search: ProductFilter = ProductFilter(),
+            pagination: PaginationIn = PaginationIn(),
     ) -> Iterable[ProductEntity]:
         ...
 
     @abstractmethod
-    def get_product_count(self, search: ProductFilter) -> int:
+    def get_product_count(self, search: ProductFilter = ProductFilter()) -> int:
         ...
 
 
@@ -44,14 +44,14 @@ class ORMProductService(BaseProductService):
 
     def get_product_list(
             self,
-            search: ProductFilter,
-            pagination: PaginationIn,
+            search: ProductFilter = ProductFilter(),
+            pagination: PaginationIn = PaginationIn(),
     ) -> Iterable[ProductEntity]:
         qs: QuerySet = self.model.objects.filter(
             self._build_query(search),
         )[pagination.offset: pagination.offset + pagination.limit]
         return [product.to_entity() for product in qs]
 
-    def get_product_count(self, search: ProductFilter) -> int:
+    def get_product_count(self, search: ProductFilter = ProductFilter()) -> int:
         query = self._build_query(search)
         return self.model.objects.filter(query).count()

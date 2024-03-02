@@ -41,7 +41,7 @@ def get_product_list_handler(
     items: Iterable[ProductSchema] = [
         ProductSchema.from_entity(obj) for obj in product_list
     ]
-    pagination = PaginationOut(
+    pagination: PaginationOut = PaginationOut(
         offset=pagination_in.offset,
         limit=pagination_in.limit,
         total=product_total,

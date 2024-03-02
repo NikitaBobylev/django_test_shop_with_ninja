@@ -55,9 +55,13 @@ superuser:
 	${EXEC} ${APP_CONTAINER} ${PYTHON_MANEGE} createsuperuser
 
 .PHONY: createapp
-superuser:
+createapp:
 	${EXEC} ${APP_CONTAINER} ${PYTHON_MANEGE} createapp
 
 .PHONY: collectstatic
 collectstatic:
 	${EXEC} ${APP_CONTAINER} ${PYTHON_MANEGE} collectstatic
+
+.PHONY: run-test
+run-test:
+	${EXEC} ${APP_CONTAINER} pytest
