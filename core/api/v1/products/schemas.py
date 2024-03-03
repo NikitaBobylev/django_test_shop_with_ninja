@@ -2,7 +2,7 @@ from datetime import datetime
 
 from ninja import Schema
 
-from core.apps.products.entities.products import Product as ProductEntity
+from core.apps.customers.entities.customers import Product as ProductEntity
 
 
 # TODO: create new common endpoint

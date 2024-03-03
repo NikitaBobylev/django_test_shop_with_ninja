@@ -37,7 +37,6 @@ def get_product_list_handler(
         pagination=pagination_in,
     )
     product_total: int = service.get_product_count(search=search)
-
     items: Iterable[ProductSchema] = [
         ProductSchema.from_entity(obj) for obj in product_list
     ]

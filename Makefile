@@ -38,7 +38,9 @@ app-logs:
 app-down:
 	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} down
 
-
+.PHONY: restart
+restart:
+	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} down && ${DC} -f ${STORAGES_FILE} -f ${APP_FILE} ${ENV_FILE} up --build -d
 
 .PHONY: migrations
 migrations:
