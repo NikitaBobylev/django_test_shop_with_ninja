@@ -11,7 +11,7 @@ from django.db.models import (
 
 from core.api.filters import PaginationIn
 from core.api.v1.products.filters import ProductFilter
-from core.apps.customers.entities.customers import Product as ProductEntity
+from core.apps.products.entities.products import Product as ProductEntity
 from core.apps.products.models.products import Product as ProductModel
 
 
