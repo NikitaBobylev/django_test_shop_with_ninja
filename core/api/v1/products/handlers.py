@@ -16,10 +16,8 @@ from core.api.schemas import (
 )
 from core.api.v1.products.filters import ProductFilter
 from core.api.v1.products.schemas import ProductSchema
-from core.apps.products.services.products import (
-    BaseProductService,
-    ORMProductService,
-)
+from core.apps.products.services.products import BaseProductService
+from core.project.containers import get_containers
 
 
 product_router = Router(tags=['Products'])
@@ -31,7 +29,7 @@ def get_product_list_handler(
         search: Query[ProductFilter],
         pagination_in: Query[PaginationIn],
 ) -> ApiResponse[ListPaginationResponce[ProductSchema]]:
-    service: BaseProductService = ORMProductService()
+    service: BaseProductService = get_containers().resolve(BaseProductService)
     product_list = service.get_product_list(
         search=search,
         pagination=pagination_in,
