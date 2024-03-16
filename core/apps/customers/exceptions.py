@@ -28,3 +28,12 @@ class CodeNotEqualException(CodeException):
     @property
     def message(self):
         return 'Code not equal'
+
+
+@dataclass(eq=False)
+class CustomerNotFoundException(CodeException):
+    token: str
+
+    @property
+    def message(self):
+        return f'Customer not found token - {self.token}'

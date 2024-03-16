@@ -5,6 +5,7 @@ from abc import (
 from uuid import uuid4
 
 from core.apps.customers.entities.customers import Customer as CustomerEntity
+from core.apps.customers.exceptions import CustomerNotFoundException
 from core.apps.customers.models import Customer as CustomerModel
 
 
@@ -17,6 +18,10 @@ class BaseCustomerService(ABC):
 
     @abstractmethod
     def get(self, phone: str) -> CustomerEntity:
+        ...
+
+    @abstractmethod
+    def get_customer_by_token(self, token: str) -> CustomerEntity:
         ...
 
     @abstractmethod
@@ -35,6 +40,16 @@ class ORMCustomerService(BaseCustomerService):
         customer = self.model.objects.get(
             phone=phone,
         )
+        return customer.to_entity()
+
+    def get_customer_by_token(self, token: str) -> CustomerEntity:
+        try:
+            customer = self.model.objects.get(token=token)
+
+        except self.model.DoesNotExist:
+            raise CustomerNotFoundException(
+                token=token,
+            )
         return customer.to_entity()
 
     def generate_token(self, customer: CustomerEntity) -> str:

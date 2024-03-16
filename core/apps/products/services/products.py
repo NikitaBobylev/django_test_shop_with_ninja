@@ -10,8 +10,11 @@ from django.db.models import (
 )
 
 from core.api.filters import PaginationIn
-from core.api.v1.products.filters import ProductFilter
-from core.apps.products.entities.products import Product as ProductEntity
+from core.apps.products.entities.products import (
+    Product as ProductEntity,
+    ProductFilter,
+)
+from core.apps.products.exceptions.products import ProductNotFoundException
 from core.apps.products.models.products import Product as ProductModel
 
 
@@ -22,6 +25,10 @@ class BaseProductService(ABC):
             search: ProductFilter = ProductFilter(),
             pagination: PaginationIn = PaginationIn(),
     ) -> Iterable[ProductEntity]:
+        ...
+
+    @abstractmethod
+    def get_product_by_id(self, product_id: int) -> ProductEntity:
         ...
 
     @abstractmethod
@@ -55,3 +62,12 @@ class ORMProductService(BaseProductService):
     def get_product_count(self, search: ProductFilter = ProductFilter()) -> int:
         query = self._build_query(search)
         return self.model.objects.filter(query).count()
+
+    def get_product_by_id(self, product_id: int) -> ProductEntity:
+        try:
+            product = self.model.objects.get(id=product_id)
+        except self.model.DoesNotExist:
+            raise ProductNotFoundException(
+                product_id=product_id,
+            )
+        return product.to_entity()

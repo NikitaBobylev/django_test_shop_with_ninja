@@ -16,6 +16,7 @@ from core.api.schemas import (
 )
 from core.api.v1.products.filters import ProductFilter
 from core.api.v1.products.schemas import ProductSchema
+from core.apps.products.entities.products import ProductFilter as ProductFilterEntity
 from core.apps.products.services.products import BaseProductService
 from core.project.containers import get_containers
 
@@ -31,7 +32,7 @@ def get_product_list_handler(
 ) -> ApiResponse[ListPaginationResponce[ProductSchema]]:
     service: BaseProductService = get_containers().resolve(BaseProductService)
     product_list = service.get_product_list(
-        search=search,
+        search=ProductFilterEntity(search=search.search),
         pagination=pagination_in,
     )
     product_total: int = service.get_product_count(search=search)

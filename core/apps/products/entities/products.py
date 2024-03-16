@@ -1,4 +1,7 @@
-from dataclasses import dataclass
+from dataclasses import (
+    dataclass,
+    field,
+)
 from datetime import datetime
 
 
@@ -12,3 +15,8 @@ class Product:
 
     def __str__(self):
         return self.title
+
+
+@dataclass
+class ProductFilter:
+    search: str | None = field(default=None)
