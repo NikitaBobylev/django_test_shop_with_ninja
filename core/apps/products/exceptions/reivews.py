@@ -17,6 +17,19 @@ class ReviewAlreadyExistException(ServiceException):
 
 
 @dataclass(eq=False)
+class ReviewDoesNotExist(ServiceException):
+    product_id: int
+    customer_id: int
+
+    @property
+    def message(self):
+        return (
+            f'Review for product - {self.product_id} from \\'
+            f'customer {self.customer_id} does not exist'
+        )
+
+
+@dataclass(eq=False)
 class RatingNotValidException(ServiceException):
     rating: int
 

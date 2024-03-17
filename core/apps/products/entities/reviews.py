@@ -16,8 +16,8 @@ class Review:
     product: Product | EntityStatus = field(default=EntityStatus.NOT_LOADED)
     customer: Customer | EntityStatus = field(default=EntityStatus.NOT_LOADED)
 
-    text: str = field(default='')
-    rating: int = field(default=1)
+    text: str | None = field(default='')
+    rating: int | None = field(default=1)
 
     created_at: datetime | None = field(default=None)
     updated_at: datetime | None = field(default=None)

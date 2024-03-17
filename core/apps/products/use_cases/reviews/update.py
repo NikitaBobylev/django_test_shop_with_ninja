@@ -5,16 +5,16 @@ from core.apps.products.entities.reviews import Review as ReviewEntity
 from core.apps.products.services.products import BaseProductService
 from core.apps.products.services.reivews import (
     BaseReviewService,
-    BaseReviewValidator,
+    BaseReviewUpdateValidator,
 )
 
 
 @dataclass(eq=False)
-class CreateReviewUseCase:
+class UpdateReviewUseCase:
     customer_service: BaseCustomerService
     product_service: BaseProductService
     review_service: BaseReviewService
-    validator_service: BaseReviewValidator
+    validator_service: BaseReviewUpdateValidator
 
     def execute(
             self,
@@ -29,16 +29,11 @@ class CreateReviewUseCase:
         product = self.product_service.get_product_by_id(
             product_id=product_id,
         )
+        review.customer = customer
+        review.product = product
 
-        new_review_entity = ReviewEntity(
-            customer=customer,
-            product=product,
-            text=review.text,
-            rating=review.rating,
-        )
-
-        self.validator_service.validate(new_review_entity)
-        result_review = self.review_service.create_review(
-            new_review_entity,
+        self.validator_service.validate(review)
+        result_review = self.review_service.update_review(
+            review,
         )
         return result_review

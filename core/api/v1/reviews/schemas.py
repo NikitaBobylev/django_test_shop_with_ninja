@@ -1,6 +1,9 @@
 from datetime import datetime
 
-from ninja import Schema
+from ninja import (
+    Field,
+    Schema,
+)
 
 from core.apps.products.entities.reviews import Review
 
@@ -14,6 +17,11 @@ class ReviewInSchema(Schema):
             rating=self.rating,
             text=self.text,
         )
+
+
+class ReviewUpdateInSchema(ReviewInSchema):
+    rating: int | None = Field(default=None)
+    text: str | None = Field(default=None)
 
 
 class ReviewOutSchema(ReviewInSchema):

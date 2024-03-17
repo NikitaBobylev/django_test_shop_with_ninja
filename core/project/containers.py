@@ -23,14 +23,18 @@ from core.apps.products.services.products import (
     ORMProductService,
 )
 from core.apps.products.services.reivews import (
+    BaseReviewCreateValidator,
     BaseReviewService,
+    BaseReviewUpdateValidator,
     BaseReviewValidator,
     ComposedReviewValidator,
     OrmReviewService,
     ReviewRatingValidator,
+    SingleExistReviewValidator,
     SingleReviewValidator,
 )
-from core.apps.products.use_cases.reivews import CreateReviewUseCase
+from core.apps.products.use_cases.reviews.create import CreateReviewUseCase
+from core.apps.products.use_cases.reviews.update import UpdateReviewUseCase
 
 
 @lru_cache(1)
@@ -56,8 +60,9 @@ def _init_containers() -> punq.Container:
     # review validators
     container.register(SingleReviewValidator)
     container.register(ReviewRatingValidator)
+    container.register(SingleExistReviewValidator)
 
-    def build_validators() -> BaseReviewValidator:
+    def build_create_validators() -> BaseReviewValidator:
         return ComposedReviewValidator(
             validators=(
                 container.resolve(SingleReviewValidator),
@@ -65,6 +70,20 @@ def _init_containers() -> punq.Container:
             ),
         )
 
-    container.register(BaseReviewValidator, factory=build_validators)
+    def build_update_validators() -> BaseReviewValidator:
+        return ComposedReviewValidator(
+            validators=(
+                container.resolve(SingleExistReviewValidator),
+                container.resolve(ReviewRatingValidator),
+            ),
+        )
+
+    container.register(BaseReviewCreateValidator, factory=build_create_validators)
+    container.register(BaseReviewUpdateValidator, factory=build_update_validators)
+
+    # create review use-case
     container.register(CreateReviewUseCase)
+
+    # update review use-case
+    container.register(UpdateReviewUseCase)
     return container

@@ -1,6 +1,7 @@
 DC = docker compose
 STORAGES_FILE = docker_compose/storages.yaml
 APP_FILE = docker_compose/app.yaml
+MONITORING_FILE = docker_compose/monitoring.yaml
 EXEC = docker exec -it
 DB_CONTAINER = example-db
 APP_CONTAINER = main-app
@@ -25,6 +26,9 @@ storages-down:
 
 
 
+
+
+
 .PHONY: app
 app:
 	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} ${ENV_FILE} up --build -d
@@ -36,11 +40,33 @@ app-logs:
 
 .PHONY: app-down
 app-down:
-	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} down
+	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} f ${MONITORING_FILE} down
 
 .PHONY: restart
 restart:
 	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} down && ${DC} -f ${STORAGES_FILE} -f ${APP_FILE} ${ENV_FILE} up --build -d
+
+
+
+
+
+.PHONY: monitoring
+monitoring:
+	${DC} -f ${MONITORING_FILE} ${ENV_FILE} up --build -d
+
+.PHONY: monitoring-logs
+monitoring-logs:
+	${LOGS} ${MONITORING_FILE} -f
+
+
+.PHONY: monitoring-down
+monitoring-down:
+	${DC} -f ${MONITORING_FILE} down
+
+
+
+
+
 
 .PHONY: migrations
 migrations:
