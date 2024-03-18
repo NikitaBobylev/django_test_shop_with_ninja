@@ -5,6 +5,7 @@ MONITORING_FILE = docker_compose/monitoring.yaml
 EXEC = docker exec -it
 DB_CONTAINER = example-db
 APP_CONTAINER = main-app
+MONITORING_CONTAINER = apm-server
 LOGS = docker logs
 PYTHON_MANEGE = python manage.py
 ENV_FILE = --env-file .env
@@ -56,7 +57,7 @@ monitoring:
 
 .PHONY: monitoring-logs
 monitoring-logs:
-	${LOGS} ${MONITORING_FILE} -f
+	${DC} -f ${MONITORING_FILE} ${ENV_FILE} logs -f
 
 
 .PHONY: monitoring-down

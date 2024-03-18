@@ -1,4 +1,8 @@
 from functools import lru_cache
+from logging import (
+    getLogger,
+    Logger,
+)
 
 import punq
 
@@ -45,6 +49,7 @@ def get_containers() -> punq.Container:
 
 def _init_containers() -> punq.Container:
     container: punq.Container = punq.Container()
+    container.register(Logger, factory=getLogger, name='django.request')
 
     # product container
     container.register(BaseProductService, ORMProductService)
