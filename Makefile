@@ -40,7 +40,7 @@ app-logs:
 
 .PHONY: app-down
 app-down:
-	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} f ${MONITORING_FILE} down
+	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} down
 
 .PHONY: restart
 restart:

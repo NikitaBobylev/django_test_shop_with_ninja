@@ -44,6 +44,13 @@ class BaseReviewService(ABC):
     ) -> ReviewEntity:
         ...
 
+    @abstractmethod
+    def delete_review(
+            self,
+            review: ReviewEntity,
+    ) -> ReviewEntity:
+        ...
+
 
 class OrmReviewService(BaseReviewService):
     def _get_model_elem_by_customer_product(self, review: ReviewEntity) -> Review:
@@ -86,6 +93,17 @@ class OrmReviewService(BaseReviewService):
         review_dto.save()
         return review_dto.to_entity()
 
+    def delete_review(
+            self,
+            review: ReviewEntity,
+    ) -> ReviewEntity:
+        dto_model = self._get_model_elem_by_customer_product(
+            review=review,
+        )
+        review_entity: ReviewEntity = dto_model.to_entity()
+        dto_model.delete()
+        return review_entity
+
 
 class BaseReviewValidator(ABC):
     @abstractmethod
@@ -99,7 +117,7 @@ class BaseReviewCreateValidator(BaseReviewValidator):
         ...
 
 
-class BaseReviewUpdateValidator(BaseReviewValidator):
+class BaseReviewUpdateDeleteValidator(BaseReviewValidator):
     @abstractmethod
     def validate(self, review: ReviewEntity) -> NoReturn | None:
         ...
@@ -127,7 +145,7 @@ class SingleReviewValidator(BaseReviewCreateValidator):
 
 
 @dataclass
-class SingleExistReviewValidator(BaseReviewUpdateValidator):
+class SingleExistReviewValidator(BaseReviewUpdateDeleteValidator):
     validator_service: SingleReviewValidator
 
     def validate(self, review: ReviewEntity) -> NoReturn | None:
@@ -143,7 +161,7 @@ class SingleExistReviewValidator(BaseReviewUpdateValidator):
 
 
 @dataclass
-class ComposedReviewValidator(BaseReviewCreateValidator, BaseReviewUpdateValidator):
+class ComposedReviewValidator(BaseReviewCreateValidator, BaseReviewUpdateDeleteValidator):
     validators: Iterable[BaseReviewValidator]
 
     def validate(self, review: ReviewEntity) -> NoReturn | None:

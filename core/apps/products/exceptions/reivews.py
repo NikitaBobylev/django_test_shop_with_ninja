@@ -24,8 +24,7 @@ class ReviewDoesNotExist(ServiceException):
     @property
     def message(self):
         return (
-            f'Review for product - {self.product_id} from \\'
-            f'customer {self.customer_id} does not exist'
+            'Review does not exist'
         )
 
 

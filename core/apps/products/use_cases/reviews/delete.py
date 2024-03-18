@@ -10,7 +10,7 @@ from core.apps.products.services.reivews import (
 
 
 @dataclass(eq=False)
-class UpdateReviewUseCase:
+class DeleteReviewUseCase:
     customer_service: BaseCustomerService
     product_service: BaseProductService
     review_service: BaseReviewService
@@ -21,7 +21,6 @@ class UpdateReviewUseCase:
             token: str,
             product_id: int,
             review: ReviewEntity,
-
     ) -> ReviewEntity:
         customer = self.customer_service.get_customer_by_token(
             token=token,
@@ -32,8 +31,8 @@ class UpdateReviewUseCase:
         review.customer = customer
         review.product = product
 
-        self.validator_service.validate(review)
-        result_review = self.review_service.update_review(
+        self.validator_service.validate(review=review)
+        result_review = self.review_service.delete_review(
             review,
         )
         return result_review

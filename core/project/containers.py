@@ -25,7 +25,7 @@ from core.apps.products.services.products import (
 from core.apps.products.services.reivews import (
     BaseReviewCreateValidator,
     BaseReviewService,
-    BaseReviewUpdateValidator,
+    BaseReviewUpdateDeleteValidator,
     BaseReviewValidator,
     ComposedReviewValidator,
     OrmReviewService,
@@ -34,6 +34,7 @@ from core.apps.products.services.reivews import (
     SingleReviewValidator,
 )
 from core.apps.products.use_cases.reviews.create import CreateReviewUseCase
+from core.apps.products.use_cases.reviews.delete import DeleteReviewUseCase
 from core.apps.products.use_cases.reviews.update import UpdateReviewUseCase
 
 
@@ -79,11 +80,15 @@ def _init_containers() -> punq.Container:
         )
 
     container.register(BaseReviewCreateValidator, factory=build_create_validators)
-    container.register(BaseReviewUpdateValidator, factory=build_update_validators)
+    container.register(BaseReviewUpdateDeleteValidator, factory=build_update_validators)
 
     # create review use-case
     container.register(CreateReviewUseCase)
 
     # update review use-case
     container.register(UpdateReviewUseCase)
+
+    # delete review use-case
+    container.register(DeleteReviewUseCase)
+
     return container
