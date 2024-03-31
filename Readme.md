@@ -1,4 +1,4 @@
-# Django Boilerplate with Docker Compose, Makefile, and PostgreSQL
+# Django Products Reviews with Docker Compose, Makefile, and PostgreSQL
 
 This is a basic api for online stores, which allows you to store products and reviews on them. The service allows you to store goods and reviews. Authorization by token is implemented. The project is under development.
 
